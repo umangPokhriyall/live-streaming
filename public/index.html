@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Streaming Platform</title>
+    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .video-container {
+        flex: 1;
+        min-width: 300px;
+      }
+      h1 {
+        text-align: center;
+      }
+      video {
+        width: 100%;
+        background: #000;
+      }
+      button {
+        padding: 10px 20px;
+        background: #0078ff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+      }
+      select {
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Live Streaming Platform</h1>
+    <div class="container">
+      <div class="video-container">
+        <h2>Your Camera</h2>
+        <video id="user-video" autoplay muted></video>
+        <div class="controls">
+          <button id="start-button">Start Streaming</button>
+        </div>
+      </div>
+
+      <div class="video-container">
+        <h2>Live Stream</h2>
+        <video id="stream-video" controls autoplay></video>
+        <div class="controls">
+          <label for="stream-format">Stream Format:</label>
+          <select id="stream-format">
+            <option value="flv">FLV</option>
+            <option value="hls">HLS</option>
+            <option value="dash">DASH</option>
+          </select>
+          <button id="change-format">Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.1.5/dist/hls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dash.js@4.4.1/dist/dash.all.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
