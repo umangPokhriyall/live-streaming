@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Live Streaming Platform</title>
-    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -43,6 +42,11 @@
       select {
         padding: 8px;
       }
+      .status {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #666;
+      }
     </style>
   </head>
   <body>
@@ -57,24 +61,23 @@
       </div>
 
       <div class="video-container">
-        <h2>Live Stream</h2>
+        <h2>Live Stream (HLS)</h2>
         <video id="stream-video" controls autoplay></video>
         <div class="controls">
-          <label for="stream-format">Stream Format:</label>
-          <select id="stream-format">
-            <option value="flv">FLV</option>
-            <option value="hls">HLS</option>
-            <option value="dash">DASH</option>
+          <label for="quality-selector">Quality:</label>
+          <select id="quality-selector">
+            <option value="-1" selected>Auto</option>
+            <option value="0">720p (HD)</option>
+            <option value="1">480p</option>
+            <option value="2">360p</option>
           </select>
-          <button id="change-format">Apply</button>
         </div>
+        <div class="status" id="stream-status">Not streaming</div>
       </div>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@1.1.5/dist/hls.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dash.js@4.4.1/dist/dash.all.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

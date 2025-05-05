@@ -30,8 +30,34 @@ const nmsConfig = {
         app: "live",
         hls: true,
         hlsFlags: "[hls_time=2:hls_list_size=3:hls_flags=delete_segments]",
-        dash: true,
-        dashFlags: "[f=dash:window_size=3:extra_window_size=5]",
+      },
+    ],
+  },
+  fission: {
+    ffmpeg: "/usr/bin/ffmpeg",
+    tasks: [
+      {
+        rule: "live/stream",
+        model: [
+          {
+            ab: "128k", // Audio bitrate
+            vb: "1500k", // Video bitrate
+            vs: "1280x720", // Resolution
+            vf: "30", // Framerate
+          },
+          {
+            ab: "96k",
+            vb: "1000k",
+            vs: "854x480",
+            vf: "24",
+          },
+          {
+            ab: "64k",
+            vb: "600k",
+            vs: "640x360",
+            vf: "20",
+          },
+        ],
       },
     ],
   },
@@ -98,7 +124,7 @@ io.on("connection", (socket) => {
   console.log("socket connected", socket.id);
 
   socket.on("binary-data", (data) => {
-    console.log("binary-data");
+    // console.log("binary-data");
     ffmpegProcess.stdin.write(data, (err) => {
       if (err) {
         console.error("Error writing to ffmpeg", err);
@@ -110,5 +136,14 @@ io.on("connection", (socket) => {
 server.listen(3000, () => {
   console.log("Server is running on port 3000");
   console.log("RTMP server running on rtmp://localhost:1935");
-  console.log("HTTP-FLV server running on http://localhost:8000");
+  console.log("Multi-resolution HLS streams available at:");
+  console.log(
+    "- High quality (720p): http://localhost:8000/live/stream_720/index.m3u8"
+  );
+  console.log(
+    "- Medium quality (480p): http://localhost:8000/live/stream_480/index.m3u8"
+  );
+  console.log(
+    "- Low quality (360p): http://localhost:8000/live/stream_360/index.m3u8"
+  );
 });
